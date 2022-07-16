@@ -20,6 +20,10 @@ export class CurrencieRepository {
   async updateCurrency({ currency, value }): Promise<Currencies> {
     return new Currencies();
   }
+
+  async deleteCurrency(currency: string): Promise<void> {
+    return;
+  }
 }
 
 @Injectable()
@@ -42,5 +46,9 @@ export class CurrenciesService {
       throw new BadRequestException('The value must be greater zero');
     }
     return await this.currencieRepository.updateCurrency({ currency, value });
+  }
+
+  async deleteCurrency(currency: string): Promise<void> {
+    return await this.currencieRepository.deleteCurrency(currency);
   }
 }
