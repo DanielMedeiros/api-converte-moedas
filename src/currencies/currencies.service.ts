@@ -1,7 +1,11 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,  
+} from '@nestjs/common';
 
 export class Currencies {
   currency: string;
+  value: number;
 }
 
 export class CurrencieRepository {
@@ -10,6 +14,10 @@ export class CurrencieRepository {
   }
 
   async createCurrency({ currency, value }): Promise<Currencies> {
+    return new Currencies();
+  }
+
+  async updateCurrency({ currency, value }): Promise<Currencies> {
     return new Currencies();
   }
 }
@@ -23,6 +31,16 @@ export class CurrenciesService {
   }
 
   async createCurrency({ currency, value }): Promise<Currencies> {
+    if (value <= 0) {
+      throw new BadRequestException('The value must be greater zero');
+    }
     return await this.currencieRepository.createCurrency({ currency, value });
+  }
+
+  async updateCurrency({ currency, value }): Promise<Currencies> {
+    if (value <= 0) {
+      throw new BadRequestException('The value must be greater zero');
+    }
+    return await this.currencieRepository.updateCurrency({ currency, value });
   }
 }
